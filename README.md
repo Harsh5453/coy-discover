@@ -39,11 +39,12 @@ The SQLite database is created automatically at `server/data/coy.sqlite` and see
 Optional health endpoint: `GET /health`
 
 ## Privacy rules
-- Incoming one-sided likes are never returned by `/feed`.
+- Incoming like status is never revealed in the feed. Profiles are displayed like any other profile.
 - `/feed` does not expose the `likesYou` seed field.
 - `/matches` returns only mutual matches.
 - A match is created only when the current user likes a profile that has already liked the current user.
 - Duplicate swipes are rejected; swipes and matches are persisted in SQLite.
+
 
 ## Pages
 - **Home**: intentionally blank, as the assignment asks.
