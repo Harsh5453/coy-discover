@@ -54,4 +54,4 @@ Optional health endpoint: `GET /health`
 Stop the server and delete `server/data/coy.sqlite` (and any `-shm` / `-wal` files). Restart the server to reseed. Set `DATA_DIR` to keep the database somewhere else (handy for testing).
 
 ## Notes
-All people and profile details are fictional demo data. Profile photos are remote portraits from randomuser.me (one per profile), so the browser needs internet access. If an image fails to load, the card shows a plain placeholder instead.
+All people and profile details are fictional demo data. Profile photos are sourced from Unsplash and loaded through remote image URLs, so an internet connection is required to display them. If an image fails to load, the card displays a fallback placeholder.
