@@ -1,0 +1,294 @@
+/* ---------- Base ---------- */
+:root {
+  --bg: #fdfaf9;
+  --surface: #ffffff;
+  --text: #2b2629;
+  --muted: #6f676b;
+  --border: #e6e0e2;
+  --pink: #cf4677;
+  --pink-dark: #b83a69;
+  --pink-soft: #fbe9ef;
+  --tabs-height: 56px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  line-height: 1.5;
+}
+
+h1, h2, h3, p { margin: 0; }
+button { font: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 2px;
+}
+
+/* ---------- Layout ---------- */
+.app {
+  min-height: 100vh;
+  padding-bottom: var(--tabs-height);
+  overflow-x: clip; /* a card flying off-screen must not add a horizontal scrollbar */
+}
+
+.header {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.brand {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.brand span { color: var(--pink); }
+
+/* Tab bar: fixed to the bottom on phones, inline in the header on wider screens. */
+.tabs {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--tabs-height);
+  display: flex;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  z-index: 10;
+}
+
+.tabs a {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  border-top: 2px solid transparent;
+}
+.tabs a:hover { color: var(--text); }
+.tabs a.active { color: var(--pink-dark); border-top-color: var(--pink); }
+
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 24px 20px 32px;
+}
+.page-narrow { max-width: 420px; }
+.page h1 { font-size: 22px; margin-bottom: 20px; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 22px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.btn:hover:not(:disabled) { background: #f6f2f3; border-color: #d6cfd2; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary { background: var(--pink); border-color: var(--pink); color: #fff; }
+.btn-primary:hover:not(:disabled) { background: var(--pink-dark); border-color: var(--pink-dark); }
+
+/* ---------- Discover ---------- */
+.stage {
+  position: relative;
+  height: clamp(440px, calc(100dvh - 260px), 640px);
+}
+
+.card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(43, 38, 41, 0.08);
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+  cursor: grab;
+}
+.card:active { cursor: grabbing; }
+
+.card-photo {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.card-info { padding: 14px 18px 16px; }
+.card-info h2 { font-size: 20px; }
+.card-city { color: var(--muted); font-size: 14px; }
+.card-bio { margin-top: 8px; font-size: 15px; }
+.card-interests { margin-top: 8px; color: var(--muted); font-size: 13px; }
+
+.photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #ece7e9;
+  pointer-events: none;
+}
+
+.photo-fallback {
+  display: grid;
+  place-items: center;
+  background: var(--pink-soft);
+  color: var(--pink);
+  font-size: 64px;
+  font-weight: 600;
+}
+
+.stamp {
+  position: absolute;
+  top: 18px;
+  padding: 4px 12px;
+  border: 2px solid;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.stamp-like { left: 18px; color: var(--pink-dark); }
+.stamp-pass { right: 18px; color: var(--muted); }
+
+.notice {
+  min-height: 24px;
+  margin-top: 8px;
+  color: #b3261e;
+  font-size: 14px;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.actions .btn { min-width: 130px; }
+
+.hint {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ---------- Status and empty states ---------- */
+.status {
+  padding: 80px 0;
+  color: var(--muted);
+  text-align: center;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  max-width: 320px;
+  margin: 0 auto;
+  padding: 64px 0;
+  text-align: center;
+}
+.stage .empty { height: 100%; padding: 0; }
+.empty h2 { font-size: 18px; }
+.empty p { color: var(--muted); font-size: 15px; }
+.empty .btn { margin-top: 12px; }
+
+/* ---------- Matches ---------- */
+.match-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.match .photo {
+  aspect-ratio: 4 / 5;
+  height: auto;
+  border-radius: 8px;
+}
+.match h3 { margin-top: 8px; font-size: 16px; }
+.match p { color: var(--muted); font-size: 14px; }
+
+/* ---------- Match modal ---------- */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(43, 38, 41, 0.5);
+}
+
+.modal {
+  width: 100%;
+  max-width: 340px;
+  padding: 28px 24px 24px;
+  border-radius: 12px;
+  background: var(--surface);
+  text-align: center;
+}
+.modal .modal-photo {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 16px;
+  border-radius: 8px;
+}
+.modal h2 { font-size: 22px; }
+.modal p { margin: 4px 0 20px; color: var(--muted); }
+.modal .btn { width: 100%; }
+
+/* ---------- Wider screens ---------- */
+@media (min-width: 720px) {
+  .app { padding-bottom: 0; }
+  .header { padding: 0 32px; }
+  .tabs {
+    position: static;
+    height: auto;
+    gap: 4px;
+    border-top: 0;
+    background: none;
+  }
+  .tabs a {
+    flex: none;
+    padding: 6px 14px;
+    border-top: 0;
+    border-radius: 6px;
+  }
+  .tabs a.active { background: var(--pink-soft); }
+  .page { padding-top: 32px; }
+  .stage { height: clamp(480px, calc(100dvh - 280px), 640px); }
+}
